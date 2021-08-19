@@ -1,52 +1,59 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { arc } from 'd3';
+import React, { useState, useCallback } from "react";
+import ReactDOM from "react-dom";
 
+import { Face } from "./Face";
+
+import { range } from "d3";
+
+// import BackgroundCircle from 'Back
 const width = 960;
 const height = 500;
-const centerX = width / 2;
-const centerY = height / 2;
-const strokeWidth = 5;
-const r = height/2 - strokeWidth / 2;
+const circleRadius = 30;
+const initialMousePosition = { x: width / 2, y: height / 2 };
+//const strokeWidth = 5;
 
-var mouthArc = arc()
-    .innerRadius(0)
-    .outerRadius(90)
-    .startAngle(Math.PI / 2)
-    .endAngle(Math.PI * 3/2);
+const array = range(5);
 
+/*
+const App = () =>
+  array.map(() => (
+    <Face
+      width={width}
+      height={height}
+      centerX={width / 2}
+      centerY={height / 2}
+      strokeWidth={5}
+      eyeOffset={60}
+      eyeR={10 + Math.random() * 20}
+      mouthWidth={20 * Math.random()}
+      mouthRadius={140}
+    />
+  ));
+*/
 
-const eyeOffset = 60
-const eyeR = height / 15 - strokeWidth / 15
+const App = () => {
+  const [mousePosition, setMousePosition] = useState(initialMousePosition);
 
-const App = () => (
-    <div>
-        <h1>Huygyuello huuihuihiuhihUM World</h1>
-        <svg width={width} height={height}>
-            <g transform={`translate(${centerX}, ${centerY})`}>
-                <circle
-                    r={r}
-                    fill="yellow"
-                    stroke="black"
-                    strokeWidth={strokeWidth}
-                />
-                <circle
-                    cx={-eyeOffset}
-                    cy={-eyeOffset}
-                    r = {eyeR}
-                />
+  // useCallback has handleMouseMove register as an event listener only once!
+  const handleMouseMove = useCallback(
+    ({ clientX, clientY }) => {
+      setMousePosition({ x: clientX, y: clientY });
+    },
+    [setMousePosition]
+  );
 
-                <circle
-                    cx={eyeOffset}
-                    cy={-eyeOffset}
-                    r = {eyeR}
-                />
-                <path d={mouthArc()}/>
-            </g>
-        </svg>
-    </div>
-);
+  return (
+    <svg width={width} height={height}>
+      <circle
+        cx={mousePosition.x}
+        cy={mousePosition.y}
+        r={circleRadius}
+        onMouseMove={handleMouseMove}
+      />
+    </svg>
+  );
+};
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 
 ReactDOM.render(<App />, rootElement);
