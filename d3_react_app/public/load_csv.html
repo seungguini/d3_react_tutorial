@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title> Loading & Parsing CSV Data</title>
+    </head>
+    <body>
+        <script>
+            // fetch takes in a URL - fetch returns a Promise
+            // Promises are constructs dealing with async. workflow
+            // because downloading data takes time (async)
+            // Promises are either pending or resolved
+
+            // This is a pyramid of doom (with so many .then())
+            // fetch(url).then(response => {
+            //     response.text().then(text => {
+            //         console.log(text);
+            //     });
+            // }); 
+            
+            // promise.then() waits until the promise is ready - when the promise is ready, then call back function
+            // with response as the input 
+
+            // Every async function returns a promise
+            const fetchText = async (url) => {
+                const response = await fetch(url); // await needs to be inside an async function
+                return await response.text();
+            };
+
+            const csv_url='https://gist.githubusercontent.com/JosephStalnaker/539ae314a112da952df3e5b9af7eef48/raw/c0457df5300920603141bce472b4996a8b3d2a2a/cssNamedColors.csv';
+            fetchText(csv_url).then(text => {
+                console.log(text);
+            });
+
+        </script>
+    </body>
+</html>
