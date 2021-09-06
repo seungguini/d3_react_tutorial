@@ -35,8 +35,7 @@ const App = () => {
   const [mousePosition, setMousePosition] = useState(initialMousePosition);
 
   // useCallback has handleMouseMove register as an event listener only once!
-  const handleMouseMove = useCallback(
-    ({ clientX, clientY }) => {
+  const handleMouseMove = useCallback( ({ clientX, clientY }) => {
       setMousePosition({ x: clientX, y: clientY });
     },
     [setMousePosition]
