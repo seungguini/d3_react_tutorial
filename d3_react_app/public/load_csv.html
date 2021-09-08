@@ -1,6 +1,7 @@
 <html>
     <head>
         <title> Loading & Parsing CSV Data</title>
+        <script src="https://unpkg.com/d3@7.0.1/dist/d3.min.js"></script>
     </head>
     <body>
         <script>
@@ -24,11 +25,24 @@
                 const response = await fetch(url); // await needs to be inside an async function
                 return await response.text();
             };
-
             const csv_url='https://gist.githubusercontent.com/JosephStalnaker/539ae314a112da952df3e5b9af7eef48/raw/c0457df5300920603141bce472b4996a8b3d2a2a/cssNamedColors.csv';
-            fetchText(csv_url).then(text => {
-                console.log(text);
-            });
+
+            d3.csv(csv_url).then(data => {
+                console.log(data)
+                let message = '';
+                message = message + data.length + ' rows\n';
+                message = message + data.columns.length + ' columns';
+                document.body.textContent = message;
+            })
+
+            // fetchText(csv_url).then(text => {
+            //     let message = '';
+            //     data = d3.csvParse(text);
+            //     message = message + data.length + ' rows\n';
+            //     message = message + data.columns.length + ' columns';
+            //     document.body.textContent = message;
+
+            // });
 
         </script>
     </body>
